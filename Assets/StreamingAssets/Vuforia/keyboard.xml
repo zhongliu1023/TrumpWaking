@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="keyboardwhite" size="15.000000 4.685598" />
+    <ImageTarget name="KeyBoard" size="15.000000 11.250000" />
+  </Tracking>
+</QCARConfig>
