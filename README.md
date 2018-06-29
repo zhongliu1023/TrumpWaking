@@ -1,5 +1,7 @@
 # TrumpWaking
 
+![alt text](https://github.com/worldwardmobi/TrumpWaking/blob/master/Resources/FLY3D8CJ0SEJ64B.LARGE.jpg)
+
 ## Step 1: Download Unity and Set Up Vuforia.
 
 First download [Unity 3D](https://store.unity.com/) if you don’t already have it and make sure to install the packages for Android or IOS support depending on what mobile platform you want to build out to.
@@ -18,6 +20,7 @@ Download this and throw it onto your desktop as well.
 Now, open up unity and create a new project, call it whatever.
 Go to file, build settings, and change your platform to Android or IOS.
 Drag in the Vuforia plugin, drag in the image target database we created, unzip the trump 3d model folder and drag that in as well. Save the scene.
+Download [Trump Model](http://www.denysalmaral.com/2016/11/free-lowpoly-donald-trump-3d-character.html)
 
 ## Step 3: Setting Up Vuforia Really Is That Easy.
 Now lets get tracking working so click the Vuforia folder, prefabs and drag in AR camera to the scene. Delete the main camera. Next drag the ImageTarget prefab into the scene. With the ARCamera game object selected click on open configuration in the inspector. Paste in your license key. Expand datasets and check load image targets database, and activate.
@@ -52,6 +55,51 @@ Finally in the update function just create another condition and check if either
 And thats it, now when we click play trump will walk around our marker in whatever direction we move the joystick.
 
 ## Step 7: Full Script for Reference.
+```bash
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
+using UnityEngine.UI;
+
+public class TrumpController : MonoBehaviour {
+
+	private Animation anim;
+
+	private Rigidbody rb;
+
+	// Use this for initialization
+	void Start () {
+		anim = GetComponent<Animation> ();
+		rb = GetComponent<Rigidbody> ();
+	}
+
+	// Update is called once per frame
+	void Update () {
+
+		float x = CrossPlatformInputManager.GetAxis ("Horizontal");
+		float y = CrossPlatformInputManager.GetAxis ("Vertical");
+
+		//transform.position += new Vector3(0,0,y/10);
+		//transform.position += new Vector3(x/10,0,0);
+
+		Vector3 movement = new Vector3 (x, 0.0f, y);
+
+		//enter trumps speed here!!!
+		rb.velocity = movement * 4f;
+
+		if (x != 0 && y != 0) {
+			transform.eulerAngles = new Vector3 (transform.eulerAngles.x, Mathf.Atan2 (x, y) * Mathf.Rad2Deg, transform.eulerAngles.z);
+		}
+
+		if (x != 0 || y != 0) {
+			anim.Play ("walk");
+		} else {
+			anim.Play ("idle");
+		}
+	}	
+}
+```
 ## Step 8: Build Out to Your Mobile Phone.
 Now to get it on your phone go to file build settings and click add open scenes.
 If you plan to build for Android, make sure you have usb debugging enabled on your phone, plug it in to your computer and hit build and run.
